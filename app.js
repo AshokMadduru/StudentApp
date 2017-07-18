@@ -1,7 +1,9 @@
 var http = require("http");
 var url = require('url');
+var fs = require('fs');
 var qs = require('querystring');
 var store = require('./store.js');
+var student = require('./client.js');
 
 http.createServer(function (req, res) {
 
@@ -23,25 +25,61 @@ http.createServer(function (req, res) {
        var url_parts = url.parse(req.url,true);
        console.log(url_parts.query);
    }*/
+   res.writeHead(200, {'Content-Type': 'application/json'});
    var pathname = (url.parse(req.url).pathname).replace('/','');
-   console.log(pathname);
+    var q = url.parse(req.url, true).query;
    if (pathname === 'add') {
-     var q = url.parse(req.url, true).query;
-     var stuName = q.name;
-     var stuBranch = q.branch;
-     var rollNo = q.rollno;
-     console.log(stuName + "," + stuBranch + "," + rollNo);
-     store(stuName, rollNo , stuBranch);
+     store.addStudent(q.name, q.rollno , q.branch, (err, result) => {
+       if (err)
+          console.log(err);
+        else {
+          console.log(result);
+          res.end(result);
+        }
+     });
    } else if (pathname === 'remove') {
-     var q = url.parse(req.url, true).query;
-     var rollNo = q.rollno;
-   } else if (pathname == 'get') {
-
-   }
-   res.writeHead(200, {'Content-Type': 'text/html'});
-  var q = url.parse(req.url, true).query;
-  var txt = q.name;
-  res.end(txt);
+     store.removeStudent(q.id, (err, result) => {
+       if (err)
+          console.log(err);
+        else {
+          console.log(result);
+          res.end(result);
+        }
+     });
+   } else if (pathname === 'update') {
+     store.updateStudent(q.nameuName, q.rollno , stuq.branch, stq.iduId,
+                                      (err, result) => {
+       if (err)
+          console.log(err);
+        else {
+          console.log(result);
+          res.end(result);
+        }
+     });
+   } else if (pathname === 'get') {
+     store.getStudents((err, result) => {
+       if (err)
+          console.log(err);
+        else {
+          console.log(result);
+          res.end(result);
+        }
+     });
+   } else if (pathname == 'students'){
+     fs.readFile("./views/students.html", function (err, data) {
+      if (err) {
+         console.log(err);
+         res.writeHead(404, {'Content-Type': 'text/html'});
+      }else {
+         res.writeHead(200, {'Content-Type': 'text/html'});
+         res.write(data.toString());
+      }
+      // Send the response body
+      res.end();
+   });
+ } else {
+  // student.studentsApp();
+ }
 }).listen(8000);
 
 console.log('Server running at http://127.0.0.1:8000/')

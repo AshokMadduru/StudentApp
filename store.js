@@ -9,7 +9,7 @@ var con = mysql.createConnection({
 /**
   Insert new student record into students table
 **/
-function addStudent(name, roll, branch) {
+var addStudent = function (name, roll, branch, callBack) {
   con.connect(function(err) {
     if (err) throw err;
     var sql = "INSERT INTO students (name, branch, rollno) VALUES ('";
@@ -17,8 +17,11 @@ function addStudent(name, roll, branch) {
     sql += valuesString;
     console.log(sql);
     con.query(sql, function (err, result) {
-      if (err) throw err;
-      console.log("1 record inserted");
+      if (err) {
+        return callBack(err);
+      } else {
+      return callBack(null, JSON.stringify(result));
+      }
     });
   });
 }
@@ -26,48 +29,53 @@ function addStudent(name, roll, branch) {
 /**
   Get the list of all students from the db
 **/
-function getStudents() {
-  con.connect(function(err) {
-    if (err) throw err
+var getStudents = function (callBack) {
+  //con.connect(function(err) {
+    //if (err) throw err
     var sql = "select * from students";
     console.log(sql);
     con.query(sql, function (err, result) {
-      if (err) throw err;
-      console.log("1 record inserted");
-      return result;
+      if (err) {
+        return callBack(err);
+      } else {
+      return callBack(null, JSON.stringify(result));
+      }
     });
-  });
+  //});
 }
 
 /**
   Update given student information based on id
 **/
-function updateStudent(name, roll, branch, id) {
-  con.connect(function(err) {
-    if (err) throw err
-    var sql = "update students set name = '" + name +"' branch = '"
-                + branch + "' rollno ='" +roll+"' where id = '" + id + "'";
+var updateStudent = function (name, roll, branch, id, callBack) {
+    var sql = "update students set name = '" + name +"' , branch = '"
+                + branch + "' , rollno ='" +roll+"' where id = '" + id + "'";
     console.log(sql);
     con.query(sql, function (err, result) {
-      if (err) throw err;
-      return result;
+      if (err) {
+        return callBack(err);
+      } else {
+      return callBack(null, JSON.stringify(result));
+      }
     });
-  });
 }
 
 /**
   Remove student from students table
 **/
-function removeStudent(id) {
+var removeStudent = function (id, callBack) {
   con.connect(function(err) {
     if (err) throw err
     var sql = "delete from students where id = '" + id + "'";
     console.log(sql);
     con.query(sql, function (err, result) {
-      if (err) throw err;
-      return result;
+      if (err) {
+        return callBack(err);
+      } else {
+      return callBack(null, JSON.stringify(result));
+      }
     });
   });
 }
 
-module.exports = addStudent;
+module.exports = {addStudent, updateStudent, removeStudent, getStudents};
