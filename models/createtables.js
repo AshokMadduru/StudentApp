@@ -9,7 +9,9 @@ var con = mysql.createConnection({
 var createTable = con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
-  var sql = "CREATE TABLE students (id INT, name VARCHAR(255), branch INT(3), rollno VARCHAR(255))";
+  var sql = "CREATE TABLE students (id INT NOT NULL AUTO_INCREMENT, "
+    + "name VARCHAR(255), branch VARCHAR(255), rollno VARCHAR(255), PRIMARY KEY (ID))";
+  //var sql = "DROP TABLE students";
   con.query(sql, function (err, result) {
     if (err) throw err;
     console.log("Table created");
