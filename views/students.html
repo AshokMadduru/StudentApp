@@ -23,7 +23,7 @@
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%;
+  width: 90%;
 }
 
 /* The Close Button */
@@ -40,6 +40,14 @@
   text-decoration: none;
   cursor: pointer;
 }
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
 </style>
       <title>Sample Page</title>
    </head>
@@ -47,9 +55,9 @@
    <body>
       <h1>Students List</h1>
       <div>
-        <input type="text" id="name" class="name">
-        <input type="text" id="rollno" class="rollno">
-        <input type="text" id="branch" class="branch">
+        <input type="text" id="name" class="name" value="student name">
+        <input type="text" id="rollno" class="rollno" value = "student Roll No">
+        <input type="text" id="branch" class="branch" value = "student branch">
         <input type="submit" value="Add Student" class="addStudent">
       </div>
       <div id ='data'>

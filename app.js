@@ -58,7 +58,7 @@ http.createServer(function (req, res) {
         }
      });
    } else if (pathname === 'update') {
-     store.updateStudent(q.nameuName, q.rollno , stuq.branch, stq.iduId,
+     store.updateStudent(q.name, q.rollno , q.branch, q.id,
                                       (err, result) => {
                                         res.writeHead(200, {'Content-Type': 'application/json',
                                       'Access-Control-Allow-Origin': '*/*',
