@@ -25,11 +25,17 @@ http.createServer(function (req, res) {
        var url_parts = url.parse(req.url,true);
        console.log(url_parts.query);
    }*/
-   res.writeHead(200, {'Content-Type': 'application/json'});
+
    var pathname = (url.parse(req.url).pathname).replace('/','');
     var q = url.parse(req.url, true).query;
    if (pathname === 'add') {
+     console.log(q.name+ "," + q.rollno + "," + q.branch);
      store.addStudent(q.name, q.rollno , q.branch, (err, result) => {
+       res.writeHead(200, {'Content-Type': 'application/json',
+     'Access-Control-Allow-Origin': '*/*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+    'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+    'Access-Control-Allow-Credentials': true});
        if (err)
           console.log(err);
         else {
@@ -39,6 +45,11 @@ http.createServer(function (req, res) {
      });
    } else if (pathname === 'remove') {
      store.removeStudent(q.id, (err, result) => {
+       res.writeHead(200, {'Content-Type': 'application/json',
+     'Access-Control-Allow-Origin': '*/*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+    'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+    'Access-Control-Allow-Credentials': true});
        if (err)
           console.log(err);
         else {
@@ -49,6 +60,11 @@ http.createServer(function (req, res) {
    } else if (pathname === 'update') {
      store.updateStudent(q.nameuName, q.rollno , stuq.branch, stq.iduId,
                                       (err, result) => {
+                                        res.writeHead(200, {'Content-Type': 'application/json',
+                                      'Access-Control-Allow-Origin': '*/*',
+                                     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+                                     'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+                                     'Access-Control-Allow-Credentials': true});
        if (err)
           console.log(err);
         else {
@@ -58,6 +74,11 @@ http.createServer(function (req, res) {
      });
    } else if (pathname === 'get') {
      store.getStudents((err, result) => {
+       res.writeHead(200, {'Content-Type': 'application/json',
+     'Access-Control-Allow-Origin': 'http://localhost:8000',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+    'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+    'Access-Control-Allow-Credentials': true});
        if (err)
           console.log(err);
         else {
@@ -69,16 +90,43 @@ http.createServer(function (req, res) {
      fs.readFile("./views/students.html", function (err, data) {
       if (err) {
          console.log(err);
-         res.writeHead(404, {'Content-Type': 'text/html'});
+         res.writeHead(404, {'Content-Type': 'text/html',
+       'Access-Control-Allow-Origin': '*/*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+      'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+      'Access-Control-Allow-Credentials': true});
       }else {
-         res.writeHead(200, {'Content-Type': 'text/html'});
+         res.writeHead(200, {'Content-Type': 'text/html',
+       'Access-Control-Allow-Origin': '*/*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+      'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+      'Access-Control-Allow-Credentials': true});
          res.write(data.toString());
       }
       // Send the response body
       res.end();
    });
  } else {
-  // student.studentsApp();
+   console.log('in else');
+   fs.readFile("./views/stu.js", function (err, data) {
+    if (err) {
+       console.log(err);
+       res.writeHead(404, {'Content-Type': 'text/html',
+     'Access-Control-Allow-Origin': '*/*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+    'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+    'Access-Control-Allow-Credentials': true});
+    }else {
+       res.writeHead(200, {'Content-Type': 'text/html',
+     'Access-Control-Allow-Origin': '*/*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+    'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
+    'Access-Control-Allow-Credentials': true});
+       res.write(data.toString());
+    }
+    // Send the response body
+    res.end();
+ });
  }
 }).listen(8000);
 

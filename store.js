@@ -10,8 +10,8 @@ var con = mysql.createConnection({
   Insert new student record into students table
 **/
 var addStudent = function (name, roll, branch, callBack) {
-  con.connect(function(err) {
-    if (err) throw err;
+  //con.connect(function(err) {
+  //  if (err) throw err;
     var sql = "INSERT INTO students (name, branch, rollno) VALUES ('";
     var valuesString = name + "' , '" + branch + "' , '" + roll + "')";
     sql += valuesString;
@@ -23,7 +23,7 @@ var addStudent = function (name, roll, branch, callBack) {
       return callBack(null, JSON.stringify(result));
       }
     });
-  });
+//  });
 }
 
 /**
