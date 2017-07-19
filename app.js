@@ -28,6 +28,7 @@ http.createServer(function (req, res) {
 
    var pathname = (url.parse(req.url).pathname).replace('/','');
     var q = url.parse(req.url, true).query;
+    console.log(req.method);
    if (pathname === 'add') {
      store.addStudent(q.name, q.rollno , q.branch, (err, result) => {
        res.writeHead(200, {'Content-Type': 'application/json',
