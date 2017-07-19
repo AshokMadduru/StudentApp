@@ -64,8 +64,8 @@ var updateStudent = function (name, roll, branch, id, callBack) {
   Remove student from students table
 **/
 var removeStudent = function (id, callBack) {
-  con.connect(function(err) {
-    if (err) throw err
+//  con.connect(function(err) {
+  //  if (err) throw err
     var sql = "delete from students where id = '" + id + "'";
     console.log(sql);
     con.query(sql, function (err, result) {
@@ -75,7 +75,7 @@ var removeStudent = function (id, callBack) {
       return callBack(null, JSON.stringify(result));
       }
     });
-  });
+  //});
 }
 
 module.exports = {addStudent, updateStudent, removeStudent, getStudents};

@@ -29,7 +29,6 @@ http.createServer(function (req, res) {
    var pathname = (url.parse(req.url).pathname).replace('/','');
     var q = url.parse(req.url, true).query;
    if (pathname === 'add') {
-     console.log(q.name+ "," + q.rollno + "," + q.branch);
      store.addStudent(q.name, q.rollno , q.branch, (err, result) => {
        res.writeHead(200, {'Content-Type': 'application/json',
      'Access-Control-Allow-Origin': '*/*',
@@ -44,6 +43,7 @@ http.createServer(function (req, res) {
         }
      });
    } else if (pathname === 'remove') {
+     console.log(q.id);
      store.removeStudent(q.id, (err, result) => {
        res.writeHead(200, {'Content-Type': 'application/json',
      'Access-Control-Allow-Origin': '*/*',
